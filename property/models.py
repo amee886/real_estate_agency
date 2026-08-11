@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-
+from django.contrib import admin
 
 class Flat(models.Model):
     owner = models.CharField('ФИО владельца', max_length=200)
@@ -49,3 +49,5 @@ class Flat(models.Model):
 
     def __str__(self):
         return f'{self.town}, {self.address} ({self.price}р.)'
+
+
