@@ -28,7 +28,11 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'property.apps.PropertyConfig',
+    'phonenumber_field',
 ]
+
+PHONENUMBER_DEFAULT_REGION = "RU"
+PHONENUMBER_DB_FORMAT = "E164"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
