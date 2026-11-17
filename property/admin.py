@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.models import User
-from .models import Flat,Complaint
+from .models import Flat,Complaint,Owner
 
 
 
@@ -15,6 +15,9 @@ class AuthorAdmin(admin.ModelAdmin):
 class ComplaintAdmin(admin.ModelAdmin):
     raw_id_fields = ["user","flat"]
     
+
+class OwnerAdmin(admin.ModelAdmin):
+    raw_id_fields = ["flats"]
+admin.site.register(Owner,OwnerAdmin)
 admin.site.register(Flat,AuthorAdmin)
 admin.site.register(Complaint,ComplaintAdmin)
-
