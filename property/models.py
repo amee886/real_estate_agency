@@ -115,6 +115,8 @@ class Owner(models.Model):
         related_name='owners',
         blank=True,
     )
+    def __str__(self):
+        return self.owner
     
     
 
