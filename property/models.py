@@ -7,29 +7,17 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Flat(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200)
-    owners_phonenumber = models.CharField(
-        'Номер владельца',
-        max_length=20,
-        blank=True,
-    )
-    owner_pure_phone = PhoneNumberField(
-        'Нормализованный номер владельца',
-        region="RU",
-        blank=True,
-        null=True,
-        
-    )
-
     created_at = models.DateTimeField(
         'Когда создано объявление',
         default=timezone.now,
         db_index=True)
 
     new_building = models.BooleanField(
+        verbose_name="Новостройка",
         null=True,
         blank=True,
-        default=None
+        default=None,
+        db_index=True,
     )
 
     description = models.TextField('Текст объявления', blank=True)
@@ -79,31 +67,33 @@ class Flat(models.Model):
         return f'{self.town}, {self.address} ({self.price}р.)'
 
 class Complaint(models.Model):
-    user = models.ForeignKey(
+    complainant = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name='Кто жаловался'
+        verbose_name='Кто жаловался',
+        related_name='complaints',
     )
     
     flat = models.ForeignKey(
         Flat,
         on_delete=models.SET_NULL,
         null=True,
-        verbose_name='Квартира, на которую пожаловались'
+        verbose_name='Квартира, на которую пожаловались',
+        related_name='complaints',
     )
      
     text = models.TextField('Текст жалобы')
 
 class Owner(models.Model):
-    owner = models.CharField('ФИО владельца', max_length=200,db_index=True,)
-    owners_phonenumber = models.CharField(
+    owner_name = models.CharField('ФИО владельца', max_length=200,db_index=True,)
+    phone_number = models.CharField(
         'Номер владельца',
         max_length=20,
         blank=True,
         db_index=True,
     )
-    owner_pure_phone = PhoneNumberField(
+    normalized_phone = PhoneNumberField(
         'Нормализованный номер владельца',
         region="RU",
         blank=True,
@@ -118,7 +108,7 @@ class Owner(models.Model):
         blank=True,
     )
     def __str__(self):
-        return self.owner
+        return self.owner_name
     
     
 
